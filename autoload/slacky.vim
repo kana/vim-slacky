@@ -24,9 +24,12 @@
 
 let s:queued_bufnr = 0
 let s:post_timer = 0
+
+" TODO: Configurable
 let s:throttling_duration = 1000 " milliseconds
 
 function! slacky#push()
+  " TODO: Rate limit - 50 per minutes
   let s:queued_bufnr = bufnr('')
   call timer_stop(s:post_timer)
   let s:post_timer = timer_start(s:throttling_duration, 's:post')
@@ -47,6 +50,7 @@ function! s:post()
   \ ])
 endfunction
 
+" TODO: Configurable
 function! s:make_status(bufnr)
   let abbreviated_path = fnamemodify(bufname(a:bufnr), ':~:.')
   let emojis = [':zero:', ':one:', ':two:', ':three:']
