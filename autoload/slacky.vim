@@ -28,6 +28,10 @@ let s:post_timer = 0
 " TODO: Configurable
 let s:throttling_duration = 1000 " milliseconds
 
+function! slacky#_scope()
+  return s:
+endfunction
+
 function! slacky#push()
   " TODO: Rate limit - 50 per minutes
   let s:queued_bufnr = bufnr('')
