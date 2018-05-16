@@ -36,10 +36,10 @@ function! slacky#push()
   " TODO: Rate limit - 50 per minutes
   let s:queued_bufnr = bufnr('')
   call timer_stop(s:post_timer)
-  let s:post_timer = timer_start(s:throttling_duration, 's:post')
+  let s:post_timer = timer_start(s:throttling_duration, 'slacky#_post')
 endfunction
 
-function! s:post()
+function! slacky#_post()
   call s:.curl_in_background([
   \   '--silent',
   \   '--request',
