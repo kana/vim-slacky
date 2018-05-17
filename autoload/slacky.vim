@@ -60,7 +60,7 @@ function! s:make_status(bufnr)
   let emojis = [':zero:', ':one:', ':two:', ':three:']
   return {
   \   'status_text': matchstr(abbreviated_path, '^.\{,100}'),
-  \   'status_emoji': emojis[localtime() % len(emojis)]
+  \   'status_emoji': emojis[0]
   \ }
 endfunction
 
