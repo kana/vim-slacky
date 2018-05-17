@@ -10,14 +10,14 @@ describe 'slacky'
 
     call Set('s:curl_in_background', {args -> add(g:args_history, args)})
     call Set('s:get_slack_access_token', {-> 'xyzzy'})
-    let g:slacky_throttling_duration = 100
+    let g:slacky_debouncing_wait = 100
   end
 
   after
     call timer_stop(Ref('s:post_timer'))
   end
 
-  it 'updates Slack status after throttling duration'
+  it 'updates Slack status after debouncing wait'
     Expect g:args_history ==# []
 
     edit foo
