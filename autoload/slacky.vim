@@ -26,7 +26,7 @@ let s:queued_bufnr = 0
 let s:post_timer = 0
 
 " TODO: Configurable
-let s:throttling_duration = 1000 " milliseconds
+let s:throttling_duration = 30 * 1000 " milliseconds
 
 function! slacky#_scope()
   return s:
