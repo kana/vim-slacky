@@ -45,7 +45,7 @@ describe 'slacky'
     \     '--header',
     \     'Content-Type: application/json',
     \     '--data',
-    \     '{"profile":{"status_emoji":":zero:","status_text":"bar"}}',
+    \     '{"profile":{"status_emoji":":memo:","status_text":"bar"}}',
     \     'https://slack.com/api/users.profile.set',
     \   ],
     \ ]

@@ -70,7 +70,7 @@ function! slacky#_build_status_text()
 endfunction
 
 function! slacky#_build_status_emoji()
-  return ':zero:'
+  return ':memo:'
 endfunction
 
 function! s:.curl_in_background(args)
