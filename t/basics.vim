@@ -17,37 +17,16 @@ describe 'slacky'
     call timer_stop(Ref('s:post_timer'))
   end
 
-  it 'keeps the last entered buffer'
-    Expect Ref('s:queued_bufnr') == 0
-    let first_bufnr = 0
-
-    edit foo
-    let second_bufnr = bufnr('')
-
-    Expect second_bufnr != first_bufnr
-    Expect Ref('s:queued_bufnr') == second_bufnr
-
-    edit bar
-    let third_bufnr = bufnr('')
-
-    Expect third_bufnr != first_bufnr
-    Expect third_bufnr != second_bufnr
-    Expect Ref('s:queued_bufnr') == third_bufnr
-  end
-
   it 'updates Slack status after throttling duration'
-    Expect Ref('s:queued_bufnr') == 0
     Expect g:args_history ==# []
 
     edit foo
-    Expect Ref('s:queued_bufnr') != 0
     Expect g:args_history ==# []
 
     sleep 50m
     Expect g:args_history ==# []
 
     edit bar
-    Expect Ref('s:queued_bufnr') != 0
     Expect g:args_history ==# []
 
     sleep 50m

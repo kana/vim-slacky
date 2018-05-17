@@ -22,7 +22,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-let s:queued_bufnr = 0
 let s:post_timer = 0
 
 " TODO: Configurable
@@ -34,7 +33,6 @@ endfunction
 
 function! slacky#push()
   " TODO: Rate limit - 50 per minutes
-  let s:queued_bufnr = bufnr('')
   call timer_stop(s:post_timer)
   let s:post_timer = timer_start(s:throttling_duration, 'slacky#_post')
 endfunction
@@ -49,14 +47,14 @@ function! slacky#_post(_timer)
   \   '--header',
   \   'Content-Type: application/json',
   \   '--data',
-  \   json_encode({'profile': s:make_status(s:queued_bufnr)}),
+  \   json_encode({'profile': s:make_status()}),
   \   'https://slack.com/api/users.profile.set',
   \ ])
 endfunction
 
 " TODO: Configurable
-function! s:make_status(bufnr)
-  let abbreviated_path = fnamemodify(bufname(a:bufnr), ':~:.')
+function! s:make_status()
+  let abbreviated_path = fnamemodify(bufname(''), ':~:.')
   let emojis = [':zero:', ':one:', ':two:', ':three:']
   return {
   \   'status_text': matchstr(abbreviated_path, '^.\{,100}'),
