@@ -24,8 +24,9 @@
 
 let s:post_timer = 0
 
-" TODO: Configurable
-let s:throttling_duration = 30 * 1000 " milliseconds, should be >= 1200
+if !exists('g:slacky_throttling_duration')
+  let g:slacky_throttling_duration = 30 * 1000 " milliseconds, should be >= 1200
+endif
 
 function! slacky#_scope()
   return s:
@@ -33,7 +34,7 @@ endfunction
 
 function! slacky#push()
   call timer_stop(s:post_timer)
-  let s:post_timer = timer_start(s:throttling_duration, 'slacky#_post')
+  let s:post_timer = timer_start(g:slacky_throttling_duration, 'slacky#_post')
 endfunction
 
 function! slacky#_post(_timer)

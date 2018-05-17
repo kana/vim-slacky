@@ -10,7 +10,7 @@ describe 'slacky'
 
     call Set('s:curl_in_background', {args -> add(g:args_history, args)})
     call Set('s:get_slack_access_token', {-> 'xyzzy'})
-    call Set('s:throttling_duration', 100)
+    let g:slacky_throttling_duration = 100
   end
 
   after
