@@ -1,0 +1,132 @@
+*slacky.txt*    Update Slack status with fancy stuffs
+
+Version 0.0.0
+Copyright (C) 2018 Kana Natsuno <https://whileimautomaton.net/>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS                                        *slacky-contents*
+
+Introduction            |slacky-introduction|
+Interface               |slacky-interface|
+  Commands                |slacky-commands|
+  Variables               |slacky-variables|
+  Files                   |slacky-files|
+Bugs                    |slacky-bugs|
+Changelog               |slacky-changelog|
+
+
+
+
+==============================================================================
+INTRODUCTION                                    *slacky-introduction*
+
+*slacky* is a Vim plugin to update Slack user status based on the current
+buffer.  To use Slack API from this plugin, you have to do the following
+steps:
+
+1. Create a Slack app: https://api.slack.com/apps
+  - `users.profile:write` permission mut be given to the app.
+2. Install the app to your Slack team.
+3. Copy OAuth access token for the app, and save it to |~/.vim-slacky-token|.
+  - Visit https://api.slack.com/apps/{YOUR_APP_ID}/oauth to check the token.
+
+
+Requirements:
+- Vim 8.0 or later
+- curl https://curl.haxx.se
+
+Latest version:
+https://github.com/kana/vim-slacky
+
+
+
+
+==============================================================================
+INTERFACE                                       *slacky-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS                                       *slacky-functions*
+
+slacky#enable()                                 *slacky#enable()*
+                        Enable the Slack status updater.  This is
+                        automatically called after Vim startup if
+                        |~/.vim-slacky-token| exists.
+
+slacky#disable()                                *slacky#disable()*
+                        Disable the Slack status updater.
+
+
+------------------------------------------------------------------------------
+VARIABLES                                       *slacky-variables*
+
+                                                *g:slacky_debouncing_wait*
+g:slacky_debouncing_wait        (int, default: 30,000)
+                        Wait time in milliseconds.  When this wait has elapsed
+                        after the last |BufEnter|, the Slack status updater
+                        will be executed.
+
+                        This wait should be equal or greater than 1200 to
+                        avoid rate limiting by Slack.
+
+                                                *g:slacky_build_status_text*
+g:slacky_build_status_text      (string, default: the default builder)
+                        The name of a function to build a new status text.
+                        The function will be called with 0 arguments and must
+                        return a string.  Return value will be truncated if it
+                        is longer than 100 characters.
+
+                                                *g:slacky_build_status_emoji*
+g:slacky_build_status_emoji     (string, default: the default builder)
+                        The name of a function to build a new status emoji.
+                        The function will be called with 0 arguments and must
+                        return an emoji name string like ":memo:".
+
+
+------------------------------------------------------------------------------
+FILES                                           *slacky-files*
+
+~/.vim-slacky-token				*~/.vim-slacky-token*
+                        A plain text file which contains OAuth access token
+                        for your Slack app.
+
+
+
+
+==============================================================================
+BUGS                                            *slacky-bugs*
+
+- See also https://github.com/kana/vim-slacky/issues
+
+
+
+
+==============================================================================
+CHANGELOG                                       *slacky-changelog*
+
+0.0.0   2018-05-17T20:07:31+09:00               *slacky-changelog-0.0.0*
+        - Initial version.
+
+
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
