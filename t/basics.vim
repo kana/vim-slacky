@@ -13,6 +13,8 @@ describe 'slacky'
     let g:slacky_debouncing_wait = 100
     let g:slacky_build_status_text = 'slacky#_build_status_text'
     let g:slacky_build_status_emoji = 'slacky#_build_status_emoji'
+
+    call slacky#enable()
   end
 
   after
@@ -113,5 +115,28 @@ describe 'slacky'
     \     'https://slack.com/api/users.profile.set',
     \   ],
     \ ]
+  end
+
+  it 'disables itself if token becomes unavailable'
+    call Set('s:get_slack_access_token', {-> 0})
+    Expect Ref('s:post_timer') == 0
+    Expect g:args_history ==# []
+
+    edit foo
+    Expect Ref('s:post_timer') != 0
+    Expect g:args_history ==# []
+    let post_timer_foo = Ref('s:post_timer')
+
+    sleep 100m
+    Expect Ref('s:post_timer') == post_timer_foo
+    Expect g:args_history ==# []
+
+    edit bar
+    Expect Ref('s:post_timer') == post_timer_foo
+    Expect g:args_history ==# []
+
+    sleep 100m
+    Expect Ref('s:post_timer') == post_timer_foo
+    Expect g:args_history ==# []
   end
 end
