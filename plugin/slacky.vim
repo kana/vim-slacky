@@ -26,10 +26,7 @@ if exists('g:loaded_slacky')
   finish
 endif
 
-augroup slacky
-  autocmd!
-  autocmd BufEnter * call slacky#push()
-augroup END
+call slacky#enable()
 
 let g:loaded_slacky = 1
 

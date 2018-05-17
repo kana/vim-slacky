@@ -40,6 +40,19 @@ function! slacky#_scope()
   return s:
 endfunction
 
+function! slacky#enable()
+  augroup slacky
+    autocmd!
+    autocmd BufEnter * call slacky#push()
+  augroup END
+endfunction
+
+function! slacky#disable()
+  augroup slacky
+    autocmd!
+  augroup END
+endfunction
+
 function! slacky#push()
   call timer_stop(s:post_timer)
   let s:post_timer = timer_start(g:slacky_debouncing_wait, 'slacky#_post')
