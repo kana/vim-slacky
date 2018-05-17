@@ -39,7 +39,7 @@ function! slacky#push()
   let s:post_timer = timer_start(s:throttling_duration, 'slacky#_post')
 endfunction
 
-function! slacky#_post()
+function! slacky#_post(_timer)
   call s:.curl_in_background([
   \   '--silent',
   \   '--request',
