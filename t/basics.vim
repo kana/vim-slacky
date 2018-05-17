@@ -68,7 +68,7 @@ describe 'slacky'
     edit foo
     Expect g:args_history ==# []
 
-    sleep 100m
+    sleep 150m
     Expect g:args_history ==# [
     \   [
     \     '--silent',
@@ -100,7 +100,7 @@ describe 'slacky'
     edit foo
     Expect g:args_history ==# []
 
-    sleep 100m
+    sleep 150m
     Expect g:args_history ==# [
     \   [
     \     '--silent',
