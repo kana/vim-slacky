@@ -82,4 +82,36 @@ describe 'slacky'
     \   ],
     \ ]
   end
+
+  it 'automatically truncates too long text'
+    function! BuildText()
+      return repeat('laid-back camp', 10)
+    endfunction
+    function! BuildEmoji()
+      return ':barbar:'
+    endfunction
+    let g:slacky_build_status_text = 'BuildText'
+    let g:slacky_build_status_emoji = 'BuildEmoji'
+
+    Expect g:args_history ==# []
+
+    edit foo
+    Expect g:args_history ==# []
+
+    sleep 100m
+    Expect g:args_history ==# [
+    \   [
+    \     '--silent',
+    \     '--request',
+    \     'POST',
+    \     '--header',
+    \     'Authorization: Bearer xyzzy',
+    \     '--header',
+    \     'Content-Type: application/json',
+    \     '--data',
+    \     '{"profile":{"status_emoji":":barbar:","status_text":"laid-back camplaid-back camplaid-back camplaid-back camplaid-back camplaid-back camplaid-back campla"}}',
+    \     'https://slack.com/api/users.profile.set',
+    \   ],
+    \ ]
+  end
 end
