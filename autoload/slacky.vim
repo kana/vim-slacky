@@ -92,6 +92,10 @@ function! slacky#_build_status_emoji()
   return ':memo:'
 endfunction
 
+function! slacky#_is_slack_access_token_available()
+  return s:.get_slack_access_token() isnot 0
+endfunction
+
 function! s:.curl_in_background(args)
   call job_start(['curl'] + a:args)
 endfunction

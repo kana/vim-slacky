@@ -26,7 +26,9 @@ if exists('g:loaded_slacky')
   finish
 endif
 
-call slacky#enable()
+if slacky#_is_slack_access_token_available()
+  call slacky#enable()
+endif
 
 let g:loaded_slacky = 1
 
