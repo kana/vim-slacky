@@ -98,7 +98,7 @@ endfunction
 
 function! s:.get_slack_access_token()
   let token_path = expand('~/.vim-slacky-token')
-  return filereadable(token_path) ? readfile(token_path)[0] : 0
+  return filereadable(token_path) ? readfile(token_path, 0, 1)[0] : 0
 endfunction
 
 " __END__  "{{{1
