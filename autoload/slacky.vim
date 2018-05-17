@@ -59,6 +59,12 @@ function! slacky#push()
 endfunction
 
 function! slacky#_post(_timer)
+  let token = s:.get_slack_access_token()
+  if token is 0
+    call slacky#disable()
+    return
+  endif
+
   call s:.curl_in_background([
   \   '--silent',
   \   '--request',
@@ -91,7 +97,8 @@ function! s:.curl_in_background(args)
 endfunction
 
 function! s:.get_slack_access_token()
-  return readfile(expand('~/.vim-slacky-token'))[0]
+  let token_path = expand('~/.vim-slacky-token')
+  return filereadable(token_path) ? readfile(token_path)[0] : 0
 endfunction
 
 " __END__  "{{{1
