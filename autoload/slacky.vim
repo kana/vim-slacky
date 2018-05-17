@@ -47,19 +47,24 @@ function! slacky#_post(_timer)
   \   '--header',
   \   'Content-Type: application/json',
   \   '--data',
-  \   json_encode({'profile': s:make_status()}),
+  \   json_encode({
+  \     'profile': {
+  \        'status_text': matchstr(s:make_status_text(), '^.\{,100}'),
+  \        'status_emoji': s:make_status_emoji(),
+  \     },
+  \   }),
   \   'https://slack.com/api/users.profile.set',
   \ ])
 endfunction
 
 " TODO: Configurable
-function! s:make_status()
-  let abbreviated_path = fnamemodify(bufname(''), ':~:.')
-  let emojis = [':zero:', ':one:', ':two:', ':three:']
-  return {
-  \   'status_text': matchstr(abbreviated_path, '^.\{,100}'),
-  \   'status_emoji': emojis[0]
-  \ }
+function! s:make_status_text()
+  return fnamemodify(bufname(''), ':~:.')
+endfunction
+
+" TODO: Configurable
+function! s:make_status_emoji()
+  return ':zero:'
 endfunction
 
 function! s:.curl_in_background(args)
