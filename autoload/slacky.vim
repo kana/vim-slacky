@@ -28,6 +28,14 @@ if !exists('g:slacky_debouncing_wait')
   let g:slacky_debouncing_wait = 30 * 1000 " milliseconds, should be >= 1200
 endif
 
+if !exists('g:slacky_build_status_text')
+  let g:slacky_build_status_text = 'slacky#_build_status_text'
+endif
+
+if !exists('g:slacky_build_status_emoji')
+  let g:slacky_build_status_emoji = 'slacky#_build_status_emoji'
+endif
+
 function! slacky#_scope()
   return s:
 endfunction
@@ -49,21 +57,19 @@ function! slacky#_post(_timer)
   \   '--data',
   \   json_encode({
   \     'profile': {
-  \        'status_text': matchstr(s:make_status_text(), '^.\{,100}'),
-  \        'status_emoji': s:make_status_emoji(),
+  \        'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
+  \        'status_emoji': {g:slacky_build_status_emoji}(),
   \     },
   \   }),
   \   'https://slack.com/api/users.profile.set',
   \ ])
 endfunction
 
-" TODO: Configurable
-function! s:make_status_text()
+function! slacky#_build_status_text()
   return fnamemodify(bufname(''), ':~:.')
 endfunction
 
-" TODO: Configurable
-function! s:make_status_emoji()
+function! slacky#_build_status_emoji()
   return ':zero:'
 endfunction
 
