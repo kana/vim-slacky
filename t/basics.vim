@@ -13,6 +13,7 @@ describe 'slacky'
     let g:slacky_debouncing_wait = 100
     let g:slacky_build_status_text = 'slacky#_build_status_text'
     let g:slacky_build_status_emoji = 'slacky#_build_status_emoji'
+    let g:slacky_build_display_name = 'slacky#_build_display_name'
 
     call slacky#enable()
   end
@@ -60,8 +61,12 @@ describe 'slacky'
     function! BuildEmoji()
       return ':barbar:'
     endfunction
+    function! BuildDisplayName()
+      return 'Display Name'
+    endfunction
     let g:slacky_build_status_text = 'BuildText'
     let g:slacky_build_status_emoji = 'BuildEmoji'
+    let g:slacky_build_display_name = 'BuildDisplayName'
 
     Expect g:args_history ==# []
 
@@ -79,7 +84,7 @@ describe 'slacky'
     \     '--header',
     \     'Content-Type: application/json',
     \     '--data',
-    \     '{"profile":{"status_emoji":":barbar:","status_text":"foofoo"}}',
+    \     '{"profile":{"display_name":"Display Name","status_emoji":":barbar:","status_text":"foofoo"}}',
     \     'https://slack.com/api/users.profile.set',
     \   ],
     \ ]
