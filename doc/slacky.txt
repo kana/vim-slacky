@@ -100,6 +100,13 @@ g:slacky_build_status_emoji     (string, default: the default builder)
                         The function will be called with 0 arguments and must
                         return an emoji name string like ":memo:".
 
+                                                *g:slacky_build_display_name*
+g:slacky_build_display_name     (string, default: the default builder)
+                        The name of a function to build a new display name.
+                        The function will be called with 0 arguments and must
+                        return a non-empty string or 0.  Display name will not
+                        be updated if the function returns 0.
+
 
 ------------------------------------------------------------------------------
 FILES                                           *slacky-files*
