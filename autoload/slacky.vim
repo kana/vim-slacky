@@ -36,6 +36,10 @@ if !exists('g:slacky_build_status_emoji')
   let g:slacky_build_status_emoji = 'slacky#_build_status_emoji'
 endif
 
+if !exists('g:slacky_build_display_name')
+  let g:slacky_build_display_name = 'slacky#_build_display_name'
+endif
+
 function! slacky#_scope()
   return s:
 endfunction
@@ -65,6 +69,15 @@ function! slacky#_post(_timer)
     return
   endif
 
+  let profile = {
+  \   'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
+  \   'status_emoji': {g:slacky_build_status_emoji}(),
+  \ }
+  let display_name = {g:slacky_build_display_name}()
+  if type(display_name) == v:t_string
+    let profile['display_name'] = display_name
+  endif
+
   call s:.curl_in_background([
   \   '--silent',
   \   '--request',
@@ -75,10 +88,7 @@ function! slacky#_post(_timer)
   \   'Content-Type: application/json',
   \   '--data',
   \   json_encode({
-  \     'profile': {
-  \        'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
-  \        'status_emoji': {g:slacky_build_status_emoji}(),
-  \     },
+  \     'profile': profile,
   \   }),
   \   'https://slack.com/api/users.profile.set',
   \ ])
@@ -90,6 +100,10 @@ endfunction
 
 function! slacky#_build_status_emoji()
   return ':memo:'
+endfunction
+
+function! slacky#_build_display_name()
+  return 0
 endfunction
 
 function! slacky#_is_slack_access_token_available()
