@@ -69,6 +69,11 @@ function! slacky#_post(_timer)
     return
   endif
 
+  let profile = {
+  \   'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
+  \   'status_emoji': {g:slacky_build_status_emoji}(),
+  \ }
+
   call s:.curl_in_background([
   \   '--silent',
   \   '--request',
@@ -79,10 +84,7 @@ function! slacky#_post(_timer)
   \   'Content-Type: application/json',
   \   '--data',
   \   json_encode({
-  \     'profile': {
-  \        'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
-  \        'status_emoji': {g:slacky_build_status_emoji}(),
-  \     },
+  \     'profile': profile,
   \   }),
   \   'https://slack.com/api/users.profile.set',
   \ ])
