@@ -36,6 +36,10 @@ if !exists('g:slacky_build_status_emoji')
   let g:slacky_build_status_emoji = 'slacky#_build_status_emoji'
 endif
 
+if !exists('g:slacky_build_display_name')
+  let g:slacky_build_display_name = 'slacky#_build_display_name'
+endif
+
 function! slacky#_scope()
   return s:
 endfunction
@@ -90,6 +94,10 @@ endfunction
 
 function! slacky#_build_status_emoji()
   return ':memo:'
+endfunction
+
+function! slacky#_build_display_name()
+  return 0
 endfunction
 
 function! slacky#_is_slack_access_token_available()
