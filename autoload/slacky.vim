@@ -73,6 +73,10 @@ function! slacky#_post(_timer)
   \   'status_text': matchstr({g:slacky_build_status_text}(), '^.\{,100}'),
   \   'status_emoji': {g:slacky_build_status_emoji}(),
   \ }
+  let display_name = {g:slacky_build_display_name}()
+  if type(display_name) == v:t_string
+    let profile['display_name'] = display_name
+  endif
 
   call s:.curl_in_background([
   \   '--silent',
